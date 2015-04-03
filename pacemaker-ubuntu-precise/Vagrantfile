@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+    config.vm.define :node1 do |node1_config|
+        node1_config.vm.box = "ubuntu/precise64"
+        node1_config.vm.box_url = "https://atlas.hashicorp.com/ubuntu/boxes/precise64"
+        node1_config.vm.network :private_network, ip: "10.0.15.21" 
+        node1_config.vm.hostname = "node1"
+        node1_config.vm.provision :shell, path: "bootstrap.sh"
+    end
+
+    config.vm.define :node2 do |node2_config|
+        node2_config.vm.box = "ubuntu/precise64"
+        node2_config.vm.box_url = "https://atlas.hashicorp.com/ubuntu/boxes/precise64"
+        node2_config.vm.network :private_network, ip: "10.0.15.22" 
+        node2_config.vm.hostname = "node2"
+        node2_config.vm.provision :shell, path: "bootstrap.sh"
+    end
+
+end

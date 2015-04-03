@@ -1,9 +1,9 @@
 vagrant
 =======
 
-`Vagrantfile`s for [vagrant](https://docs.vagrantup.com/v2/) [boxes](https://atlas.hashicorp.com/boxes/search):
+Configurations for [vagrant](https://docs.vagrantup.com/v2/) [boxes](https://atlas.hashicorp.com/boxes/search):
 
-* `pacemaker-ubuntu-precise` -- trying out [pacemaker](http://clusterlabs.org/quickstart-ubuntu.html)
+* `pacemaker-ubuntu-precise` -- for trying out [pacemaker](http://clusterlabs.org/quickstart-ubuntu.html)
 
 Usage
 -----

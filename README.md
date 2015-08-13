@@ -12,4 +12,4 @@ Usage
 2. `cd <box>`
 3. `vagrant up`
 
-See [my Vagrant blog](https://github.com/jreisinger/blog/blob/master/posts/vagrant.md) for more.
+See [my Vagrant blog post](https://github.com/jreisinger/blog/blob/master/posts/vagrant.md) for more.

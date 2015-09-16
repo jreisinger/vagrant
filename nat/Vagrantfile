@@ -1,0 +1,78 @@
+# Defines our Vagrant environment
+#
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # create internal client node
+  config.vm.define :client do |client_config|
+      client_config.vm.box = "ubuntu/trusty64"
+      client_config.vm.hostname = "client"
+      client_config.vm.network :private_network, ip: "10.0.15.11"
+      client_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+      client_config.vm.provision :shell, path: "bootstrap-client.sh"
+  end
+  
+  # create external client node
+  config.vm.define :client_ext do |client_ext_config|
+      client_ext_config.vm.box = "ubuntu/trusty64"
+      client_ext_config.vm.hostname = "client-ext"
+      client_ext_config.vm.network :private_network, ip: "192.168.15.11"
+      client_ext_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+      #client_ext_config.vm.provision :shell, path: "bootstrap-client_ext.sh"
+  end
+
+  # create proxy
+  config.vm.define :proxy do |proxy_config|
+      proxy_config.vm.box = "ubuntu/trusty64"
+      proxy_config.vm.hostname = "proxy"
+      proxy_config.vm.network :private_network, ip: "10.0.15.10"
+      proxy_config.vm.network :private_network, ip: "192.168.15.10"
+      proxy_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+      proxy_config.vm.provision :shell, path: "bootstrap-proxy.sh"
+  end
+  
+  # www
+  config.vm.define :www do |www_config|
+      www_config.vm.box = "ubuntu/trusty64"
+      www_config.vm.hostname = "www"
+      www_config.vm.network :private_network, ip: "10.0.15.21"
+      www_config.vm.network "forwarded_port", guest: 80, host: 8083
+      www_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+  
+  # www_ext
+  config.vm.define :www_ext do |www_ext_config|
+      www_ext_config.vm.box = "ubuntu/trusty64"
+      www_ext_config.vm.hostname = "www-ext"
+      www_ext_config.vm.network :private_network, ip: "192.168.15.21"
+      www_ext_config.vm.network "forwarded_port", guest: 80, host: 8084
+      www_ext_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+
+  # create some web servers
+  # https://docs.vagrantup.com/v2/vagrantfile/tips.html
+  #(1..2).each do |i|
+  #  config.vm.define "www#{i}" do |node|
+  #      node.vm.box = "ubuntu/trusty64"
+  #      node.vm.hostname = "www#{i}"
+  #      node.vm.network :private_network, ip: "10.0.15.2#{i}"
+  #      node.vm.network "forwarded_port", guest: 80, host: "808#{i}"
+  #      node.vm.provider "virtualbox" do |vb|
+  #        vb.memory = "256"
+  #      end
+  #  end
+  #end
+
+end

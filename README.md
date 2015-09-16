@@ -3,7 +3,9 @@ vagrant
 
 Configurations for [vagrant](https://docs.vagrantup.com/v2/) [boxes](https://atlas.hashicorp.com/boxes/search):
 
-* `pacemaker-ubuntu-precise` -- for trying out [pacemaker](http://clusterlabs.org/quickstart-ubuntu.html)
+* bind - primary and slave nameserver with basic settings and mydomain.com zone file
+* nat - SNAT and DNAT using `iptables`
+* pacemaker-ubuntu-precise - for trying out [pacemaker](http://clusterlabs.org/quickstart-ubuntu.html)
 
 Usage
 -----

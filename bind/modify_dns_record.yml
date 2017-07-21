@@ -1,0 +1,25 @@
+- hosts: primary, slave
+  become: yes
+  tasks:
+
+    - name: Add EPEL repository
+      yum_repository:
+        name: epel
+        description: EPEL YUM repo
+        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+    - name: Install pip
+      yum:
+        name: python2-pip
+        state: latest
+
+    - name: Install dnspython
+      pip:
+        name: dnspython
+
+    - name: Add or modify mydomain.com A to 10.0.0.1
+      nsupdate:
+        server: "10.0.2.15"
+        zone: "example.org"
+        record: "ansible"
+        value: "10.0.0.1"

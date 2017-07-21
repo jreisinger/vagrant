@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
 
   config.vm.define :primary do |primary_config|
-      primary_config.vm.box = "centos-70-x64-vbox"
+      primary_config.vm.box = "centos/7"
       primary_config.vm.hostname = "primary"
       primary_config.vm.network :private_network, ip: "10.0.15.11"
       primary_config.vm.provider "virtualbox" do |vb|
@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define :slave do |slave_config|
-      slave_config.vm.box = "centos-70-x64-vbox"
+      slave_config.vm.box = "centos/7"
       slave_config.vm.hostname = "slave"
       slave_config.vm.network :private_network, ip: "10.0.15.12"
       slave_config.vm.provider "virtualbox" do |vb|

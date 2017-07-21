@@ -17,3 +17,4 @@ To reload the zone files, we need to run the following command on the master nam
 Resources:
 
 * https://www.digitalocean.com/community/tutorials/how-to-install-the-bind-dns-server-on-centos-6
+* http://jpmens.net/2010/09/28/performing-dynamic-dns-updates-on-your-dns/

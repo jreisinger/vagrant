@@ -16,27 +16,8 @@
   roles:
     - slave
 
-
-    # - name: Enable and start named (bind)
-    #   service:
-    #     name: named
-    #     enabled: yes
-    #     state: started
-    #
-    # - name: Install dnspython
-    #   pip:
-    #     name: dnspython
-
-    # - name: Update DNS resource record
-    #   nsupdate:
-    #     key_name: "ddns-key"
-    #     key_algorithm: "hmac-md5"
-    #     key_secret: "43JQzgL3OhwFsm/ZiFFPzQ=="
-    #     server: "ns1.mydomain.com"
-    #     zone: "mydomain.com"
-    #     record: "ansible"
-    #     value: "10.0.0.2"
-
-  # handlers:
-  # - name: restart bind
-  #   service: name=named state=restarted
+- name: Update record on primary
+  hosts: primary
+  become: yes
+  roles:
+    - nsupdate

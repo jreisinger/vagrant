@@ -1,0 +1,14 @@
+- name: Install dnspython
+  pip:
+    name: dnspython
+
+- name: Update DNS resource record
+  nsupdate:
+    key_name: "ddns-key"
+    key_algorithm: "hmac-md5"
+    key_secret: "43JQzgL3OhwFsm/ZiFFPzQ=="
+    #server: "10.0.2.15"
+    server: "10.0.15.11"
+    zone: "mydomain.com"
+    record: "ansible"
+    value: "10.0.0.2"

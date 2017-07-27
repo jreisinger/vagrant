@@ -1,5 +1,9 @@
 - name: Ensure /var/named exists on primary
-  file: path=/var/named state=directory
+  file:
+    path: /var/named
+    state: directory
+    group: named
+    mode: 0770
 
 - name: Configure bind
   template:

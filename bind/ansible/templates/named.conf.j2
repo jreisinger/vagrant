@@ -1,8 +1,3 @@
-#!/bin/bash
-
-yum install bind bind-utils -y
-
-cat > /etc/named.conf <<'EOF'
 options {
         #listen-on port 53 { 127.0.0.1; };
         listen-on-v6 port 53 { ::1; };
@@ -12,7 +7,12 @@ options {
         memstatistics-file "/var/named/data/named_mem_stats.txt";
         allow-query     { any; };
 
+{% if ansible_fqdn == 'primary' %}
         allow-transfer { localhost; 10.0.15.12; };
+{% else %}
+        # we only transfer from primary to slave
+        #allow-transfer { localhost; 10.0.15.12; };
+{% endif %}
 
         /*
          - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
@@ -51,36 +51,20 @@ zone "." IN {
         file "named.ca";
 };
 
+{% if ansible_fqdn == 'primary' %}
+key "ddns-key" {
+   algorithm HMAC-MD5;
+   secret "43JQzgL3OhwFsm/ZiFFPzQ==";
+};
+
 zone "mydomain.com" IN {
         type master;
         file "mydomain.com.zone";
-        allow-update { none; };
+
+        #allow-update { none; };
+        allow-update { key "ddns-key"; };
 };
+{% endif %}
 
 include "/etc/named.rfc1912.zones";
 include "/etc/named.root.key";
-EOF
-
-cat > /var/named/mydomain.com.zone <<'EOF'
-$TTL 86400
-@   IN  SOA     ns1.mydomain.com. root.mydomain.com. (
-        2013042201  ;Serial
-        3600        ;Refresh
-        1800        ;Retry
-        604800      ;Expire
-        86400       ;Minimum TTL
-)
-; Specify our two nameservers
-                IN      NS              ns1.mydomain.com.
-                IN      NS              ns2.mydomain.com.
-; Resolve nameserver hostnames to IP, replace with your two droplet IP addresses.
-ns1             IN      A               10.0.15.11
-ns2             IN      A               10.0.15.12
-
-; Define hostname -> IP pairs which you wish to resolve
-@               IN      A               10.0.15.13
-www             IN      A               10.0.15.13
-EOF
-
-service named restart
-chkconfig named on

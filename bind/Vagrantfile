@@ -10,9 +10,9 @@ Vagrant.configure("2") do |config|
       primary_config.vm.provider "virtualbox" do |vb|
         vb.memory = "256"
       end
-      primary_config.vm.provision :shell, path: "bootstrap-primary.sh"
       config.vm.provision :ansible do |ansible|
-        ansible.playbook = "modify_dns_record.yml"
+        ansible.playbook = "ansible/site.yml"
+        #ansible.verbose = "vvv"
       end
   end
 
@@ -23,7 +23,10 @@ Vagrant.configure("2") do |config|
       slave_config.vm.provider "virtualbox" do |vb|
         vb.memory = "256"
       end
-      slave_config.vm.provision :shell, path: "bootstrap-slave.sh"
+      config.vm.provision :ansible do |ansible|
+        ansible.playbook = "ansible/site.yml"
+        #ansible.verbose = "vvv"
+      end
   end
 
 end

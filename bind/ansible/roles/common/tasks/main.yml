@@ -1,0 +1,20 @@
+- name: Make SELinux permissive
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: Add EPEL repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+- name: Install packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+    disable_gpg_check: yes
+  with_items:
+    - python2-pip
+    - bind
+    - bind-utils

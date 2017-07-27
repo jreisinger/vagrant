@@ -1,57 +1,24 @@
-- hosts: all
+- name: Configure common nameserver stuff
+  hosts: all
   become: yes
-  tasks:
+  roles:
+    - common
 
-    - name: Add EPEL repository
-      yum_repository:
-        name: epel
-        description: EPEL YUM repo
-        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+- name: Configure primary nameserver
+  hosts: primary
+  become: yes
+  roles:
+    - primary
 
-    - name: Install packages
-      yum:
-        name: python2-pip
-        state: latest
-        disable_gpg_check: yes
-      with_items:
-        - python2-pip
-        - bind bind-utils
-
-    - name: Configure bind
-      template:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest}}"
-      with_items:
-        - { src: "named.conf.j2", dest: "/etc/named.conf" }
-      notify:
-        - restart bind
-
-    - name: Upload zone file to primary only
-      template:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest}}"
-      with_items:
-        - { src: "mydomain.com.zone.j2", dest: "/var/named/mydomain.com.zone" }
-      run_once: true
-      delegate_to: primary
-      notify:
-        - restart bind
-
-    - name: Enable and start named (bind)
-      service:
-        name: named
-        enabled: yes
-        state: started
-
-    - name: Install dnspython
-      pip:
-        name: dnspython
-
-    # Put SELinux in permissive mode, logging actions that would be blocked.
-    - name: Make SELinux permissive
-      selinux:
-        policy: targeted
-        state: permissive
+    # - name: Enable and start named (bind)
+    #   service:
+    #     name: named
+    #     enabled: yes
+    #     state: started
+    #
+    # - name: Install dnspython
+    #   pip:
+    #     name: dnspython
 
     # - name: Update DNS resource record
     #   nsupdate:
@@ -62,3 +29,7 @@
     #     zone: "mydomain.com"
     #     record: "ansible"
     #     value: "10.0.0.2"
+
+  # handlers:
+  # - name: restart bind
+  #   service: name=named state=restarted

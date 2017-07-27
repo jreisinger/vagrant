@@ -10,10 +10,6 @@ Vagrant.configure("2") do |config|
       primary_config.vm.provider "virtualbox" do |vb|
         vb.memory = "256"
       end
-      config.vm.provision :ansible do |ansible|
-        ansible.playbook = "ansible/site.yml"
-        #ansible.verbose = "vvv"
-      end
   end
 
   config.vm.define :slave do |slave_config|
@@ -23,10 +19,11 @@ Vagrant.configure("2") do |config|
       slave_config.vm.provider "virtualbox" do |vb|
         vb.memory = "256"
       end
-      config.vm.provision :ansible do |ansible|
-        ansible.playbook = "ansible/site.yml"
-        #ansible.verbose = "vvv"
-      end
+  end
+
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = "ansible/site.yml"
+    #ansible.verbose = "vvv"
   end
 
 end

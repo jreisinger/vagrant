@@ -1,13 +1,9 @@
-- name: Ensure /var/named exists on primary
-  file: path=/var/named state=directory
-
 - name: Configure bind
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest}}"
   with_items:
     - { src: "named.conf.j2", dest: "/etc/named.conf" }
-    - { src: "mydomain.com.zone.j2", dest: "/var/named/mydomain.com.zone" }
   notify:
     - restart bind
 

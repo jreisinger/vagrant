@@ -10,6 +10,13 @@
   roles:
     - primary
 
+- name: Configure slave nameserver
+  hosts: slave
+  become: yes
+  roles:
+    - slave
+
+
     # - name: Enable and start named (bind)
     #   service:
     #     name: named

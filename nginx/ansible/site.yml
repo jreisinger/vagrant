@@ -13,7 +13,18 @@
       setup: # aka gather_facts
 
   tasks:
-    
+
     - name: Install nginx package
       apt:
         name: nginx
+
+    - name: Configure default virtual host
+      copy:
+        src: default
+        dest: /etc/nginx/sites-available/
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

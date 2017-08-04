@@ -7,7 +7,7 @@ General usage
 -------------
 
 1. clone repo
-2. `cd <box>`
+2. `cd <service>`
 3. `vagrant up`
 
 See [my Vagrant blog post](https://github.com/jreisinger/blog/blob/master/posts/vagrant.md) for more.

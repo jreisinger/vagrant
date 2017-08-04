@@ -14,9 +14,17 @@
 
   tasks:
 
-    - name: Install nginx package
+    - name: Install packages
       apt:
-        name: nginx
+        name: "{{ item }}"
+      with_items:
+        - nginx
+        - ruby-rails
+
+    - name: Create basic ruby on rails app
+      script: create_rails_app.sh
+      become_user: ubuntu
+      changed_when: False
 
     - name: Configure default virtual host
       copy:

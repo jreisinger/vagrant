@@ -41,6 +41,7 @@ server {
 	server_name _;
 
 	location /r {
+		# reverse proxy
 		proxy_pass http://jreisinger.github.io/;
 		#proxy_redirect off;
 		#proxy_set_header Host $host;

@@ -1,10 +1,10 @@
 vagrant
 =======
 
-Configurations for [vagrant](https://docs.vagrantup.com/v2/) [boxes](https://atlas.hashicorp.com/boxes/search):
+Configurations for [vagrant](https://docs.vagrantup.com/v2/) [boxes](https://atlas.hashicorp.com/boxes/search). See `README` files within subfolders for more.
 
-Usage
------
+General usage
+-------------
 
 1. clone repo
 2. `cd <box>`

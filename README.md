@@ -3,7 +3,6 @@ vagrant
 
 Configurations for [vagrant](https://docs.vagrantup.com/v2/) [boxes](https://atlas.hashicorp.com/boxes/search):
 
-* nat - SNAT and DNAT using `iptables`
 * pacemaker-ubuntu-precise - for trying out [pacemaker](http://clusterlabs.org/quickstart-ubuntu.html)
 
 Usage

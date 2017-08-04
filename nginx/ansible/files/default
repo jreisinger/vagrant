@@ -11,6 +11,10 @@
 # Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
 ##
 
+upstream rails_app {
+	server 127.0.0.1:3000;
+}
+
 # Default server configuration
 #
 server {
@@ -40,7 +44,11 @@ server {
 
 	server_name _;
 
-	location /r {
+	location / {
+		proxy_pass http://rails_app;
+	}
+
+	location /jreisinger {
 		# reverse proxy
 		proxy_pass http://jreisinger.github.io/;
 		#proxy_redirect off;
@@ -49,11 +57,11 @@ server {
 		#proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 	}
 
-	location / {
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
-	}
+	#location / {
+	#	# First attempt to serve request as file, then
+	#	# as directory, then fall back to displaying a 404.
+	#	try_files $uri $uri/ =404;
+	#}
 
 	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
 	#

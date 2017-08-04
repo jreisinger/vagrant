@@ -1,3 +1,6 @@
+* primary and slave nameserver with basic settings and mydomain.com zone file
+* nsupdate
+
 Check DNS is working
 
     [root@primary ~]# dig @10.0.15.11 mydomain.com

@@ -55,6 +55,12 @@
     - name: Ensure nginx is started and enabled on boot
       service: name=nginx state=started enabled=yes
 
+    - name: Uniquely identify each nginx host
+      template:
+        src: index.nginx-debian.html.j2
+        dest: /var/www/html/index.nginx-debian.html
+      #notify: restart nginx
+
   handlers:
     - name: restart nginx
       service: name=nginx state=restarted

@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define :haproxy do |haproxy_config|
+      haproxy_config.vm.box = "ubuntu/xenial64"
+      haproxy_config.vm.hostname = "haproxy"
+      haproxy_config.vm.network :private_network, ip: "10.0.15.20"
+      haproxy_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+
+  config.vm.define :nginx1 do |nginx1_config|
+      nginx1_config.vm.box = "ubuntu/xenial64"
+      nginx1_config.vm.hostname = "nginx1"
+      nginx1_config.vm.network :private_network, ip: "10.0.15.21"
+      nginx1_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+
+  config.vm.define :nginx2 do |nginx2_config|
+      nginx2_config.vm.box = "ubuntu/xenial64"
+      nginx2_config.vm.hostname = "nginx2"
+      nginx2_config.vm.network :private_network, ip: "10.0.15.22"
+      nginx2_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = "ansible/site.yml"
+    #ansible.verbose = "vvv"
+  end
+
+end

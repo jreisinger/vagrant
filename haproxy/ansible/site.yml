@@ -1,0 +1,54 @@
+---
+- hosts: haproxy
+  become: yes
+  gather_facts: False
+
+  pre_tasks:
+
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      register: output
+      changed_when: output.stdout != ""
+
+    - name: Gather facts now
+      setup: # aka gather_facts
+
+  tasks:
+
+    - name: Ensure HAProxy is installed
+      apt: name=haproxy state=installed
+
+    - name: Copy HAProxy configuration in place
+      template:
+        src: haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+        mode: 0644
+        validate: haproxy -f %s -c -q
+      notify: restart haproxy
+
+  handlers:
+    - name: restart haproxy
+      service: name=haproxy state=restarted
+
+- hosts: nginx1, nginx2
+  become: yes
+  gather_facts: False
+
+  pre_tasks:
+
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      register: output
+      changed_when: output.stdout != ""
+
+    - name: Gather facts now
+      setup: # aka gather_facts
+
+  tasks:
+
+    - name: Ensure nginx is installed
+      apt: name=haproxy state=installed
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

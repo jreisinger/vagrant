@@ -33,3 +33,16 @@ defaults
 	errorfile 502 /etc/haproxy/errors/502.http
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
+
+frontend main
+	bind *:80
+	option http-server-close
+	option forwardfor
+	default_backend app-main
+
+backend app-main
+	balance roundrobin
+	# check the app is up and healthy - 200 status code
+	option httpchk HEAD / HTTP/1.1\r\nHost:\ localhost
+	server nginx1 10.0.15.21:80 check
+	server nginx2 10.0.15.22:80 check

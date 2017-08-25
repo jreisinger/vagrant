@@ -26,6 +26,9 @@
         validate: haproxy -f %s -c -q
       notify: restart haproxy
 
+    - name: Ensure HAProxy is started and enabled on boot
+      service: name=haproxy state=started enabled=yes
+
   handlers:
     - name: restart haproxy
       service: name=haproxy state=restarted
@@ -47,7 +50,10 @@
   tasks:
 
     - name: Ensure nginx is installed
-      apt: name=haproxy state=installed
+      apt: name=nginx state=installed
+
+    - name: Ensure nginx is started and enabled on boot
+      service: name=nginx state=started enabled=yes
 
   handlers:
     - name: restart nginx

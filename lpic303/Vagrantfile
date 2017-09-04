@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define :centos do |centos_config|
+      centos_config.vm.box = "bertvv/centos72"
+      centos_config.vm.hostname = "centos"
+      centos_config.vm.network :private_network, ip: "10.0.15.20"
+      centos_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+
+  config.vm.define :ubuntu do |ubuntu_config|
+      ubuntu_config.vm.box = "boxcutter/ubuntu1604"
+      ubuntu_config.vm.hostname = "ubuntu"
+      ubuntu_config.vm.network :private_network, ip: "10.0.15.20"
+      ubuntu_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+
+  config.vm.define :kali do |kali_config|
+      kali_config.vm.box = "Sliim/kali-linux-2.0-amd64"
+      kali_config.vm.hostname = "kali"
+      kali_config.vm.network :private_network, ip: "10.0.15.20"
+      kali_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+      end
+  end
+
+  #config.vm.provision :ansible do |ansible|
+  #  ansible.playbook = "ansible/site.yml"
+  #  #ansible.verbose = "vvv"
+  #end
+
+end
